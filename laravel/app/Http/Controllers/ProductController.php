@@ -70,3 +70,4 @@ class ProductController extends Controller
         return response()->json(['message' => "Product with id $productId has been deleted"]);
     }
 }
+ 
