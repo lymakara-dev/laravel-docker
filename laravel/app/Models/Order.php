@@ -13,11 +13,19 @@ class Order extends Model
     protected $dates = ['deleted_at'];
     protected $fillable = ['order_date', 'total_price', 'customer_id'];
 
-    protected function orderDate(): Attribute
+    protected function orderDate() : Attribute
     {
         return Attribute::make(
-            set: fn($value) => Carbon::createFromFormat('d/m/Y H:i:s', $value)->format('Y-m-d H:i:s'),
+
+            // Mutator: convert input format to database format before saving
+          // set: fn($value) => Carbon::createFromDate('d/m/Y H:i:s', $value)->format('Y-m-d H:i:s'),
+
+            set: fn($value) =>Carbon::createFromFormat('d/m/Y H:i:s', $value),
+
+
+            // Accessor: convert database format to output format before returning
             get: fn($value) => Carbon::parse($value)->format('d/m/Y H:i:s')
+            
         );
     }
 

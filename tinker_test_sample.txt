@@ -1,10 +1,10 @@
-$customers = App\Models\Customer::create([
-    'name' => 'Demo', 
-    'email' => 'Demo@example.com', 
-    'password' => 'Demo@123',
-    'address' => '#74B', 
-    'phone' => '111111',
-]);
+    $customers = App\Models\Customer::create([
+        'name' => 'Demo', 
+        'email' => 'Demo@example.com', 
+        'password' => 'Demo@123',
+        'address' => '#74B', 
+        'phone' => '111111',
+    ]);
 
 $orders = App\Models\Order::create([
     'order_date' => "18/02/2025 12:11:10",
