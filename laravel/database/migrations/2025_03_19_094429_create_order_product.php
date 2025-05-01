@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedInteger('quantity')->nullable(false);
             $table->timestamps();
 
-            $table->foreign('order_id')->references('id')->on('order');
+            $table->foreign('order_id')->references('id')->on('orders');
             $table->foreign('product_id')->references('id')->on('products');
         });
     }

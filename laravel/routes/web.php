@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,4 +18,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::get('/upload_file', function () {
+    return view('upload_file'); // Updated to match the corrected file name
+});
+
+Route::post('/upload', [FileUploadController::class, 'upload'])->name('file.upload');
+
+require __DIR__ . '/auth.php';

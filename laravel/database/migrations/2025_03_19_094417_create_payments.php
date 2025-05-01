@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->timestamp('payment_date')->nullable(false);
             $table->string('payment_method');
@@ -20,8 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger('customer_id')->nullable(false);
             $table->timestamps();
 
-            $table->foreign('order_id')->references('id')->on('order');
-            $table->foreign('customer_id')->references('id')->on('customer');
+            $table->foreign('order_id')->references('id')->on('orders');
+            $table->foreign('customer_id')->references('id')->on('customers');
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment');
+        Schema::dropIfExists('payments');
     }
 };

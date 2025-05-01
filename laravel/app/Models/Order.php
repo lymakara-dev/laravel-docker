@@ -21,15 +21,17 @@ class Order extends Model
         );
     }
 
-    public function order()
+    public function payments()
     {
         return $this->hasMany(Payment::class);
     }
+
     public function customer()
     {
         return $this->belongsTo(Customer::class);
     }
-    public function order_product()
+
+    public function orderProducts()
     {
         return $this->hasMany(OrderProduct::class);
     }
