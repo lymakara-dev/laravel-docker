@@ -48,7 +48,7 @@ class CategoryController extends Controller
         $category = Category::find($categoryId);
 
         if (!$category) {
-            return response()->json(["message" => "Category not found"], 404);
+            return response()->json(["message" => "Category not found!"], 404);
         }
 
         return response()->json(["message" => "Get category success", "category" => $category], 200);

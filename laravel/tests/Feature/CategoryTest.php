@@ -87,7 +87,7 @@ class CategoryTest extends TestCase
 
         $response->assertStatus(404)
             ->assertJson([
-                'message' => 'Category not found',
+                'message' => 'Category not found!',
             ]);
     }
 
@@ -123,7 +123,6 @@ class CategoryTest extends TestCase
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['name']);
     }
-
 
     // test category name must be not empty
     public function test_category_name_must_be_not_empty(): void

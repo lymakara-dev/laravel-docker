@@ -33,7 +33,6 @@ class DBSchemaCategoryTest extends TestCase
 
     public function test_name_column_cannot_be_null()
     {
-
         $this->expectException(QueryException::class);
         Category::create([
             'name' => null,
