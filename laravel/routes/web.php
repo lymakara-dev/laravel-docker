@@ -18,10 +18,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
 Route::get('/upload_file', function () {
-    return view('upload_file'); // Updated to match the corrected file name
+    return view('upload_file');
 });
 
-Route::post('/upload', [FileUploadController::class, 'upload'])->name('file.upload');
+Route::post('/upload', [FileUploadController::class, 'uploadMinio'])->name('upload');
 
 require __DIR__ . '/auth.php';
