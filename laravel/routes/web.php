@@ -23,6 +23,6 @@ Route::get('/upload_file', function () {
     return view('upload_file');
 });
 
-Route::post('/upload', [FileUploadController::class, 'uploadMinio'])->name('upload');
+Route::post('/upload', [FileUploadController::class, 'upload'])->name('upload');
 
 require __DIR__ . '/auth.php';

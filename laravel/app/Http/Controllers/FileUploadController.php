@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image as InterventionImage;
 
 class FileUploadController extends Controller
 {public function upload(Request $request)
@@ -38,26 +39,27 @@ class FileUploadController extends Controller
 
     public function store(Request $request)
     {
+        // Validate image
         $request->validate([
-        'image' => 'required|image|max:2048' // Validation rules for upload
+            // 'image' => 'required|image|max:2048',
+            'document' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
-        $image = $request->file('image');
+
+        $image = $request->file('document'); // this must not be null!
         $fileName = uniqid() . '.' . $image->getClientOriginalExtension();
 
-        $path = $image->storeAs('uploads', $fileName); // Store the original image
+        // Store original to MinIO
+        $originalPath = 'uploads/' . $fileName;
+        Storage::disk('minio')->put($originalPath, file_get_contents($image));
 
-        // (Optional) Using Intervention Image
+        // Create and store thumbnail
         $thumbnailPath = 'thumbnails/' . $fileName;
-        $intervention = Image::make($image->getRealPath());
-        $intervention->fit(200, 200, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save(storage_path('app/' . $thumbnailPath));
+        $thumbnailImage = InterventionImage::make($image)->fit(200, 200)->encode();
+        Storage::disk('minio')->put($thumbnailPath, (string) $thumbnailImage);
 
-        // (Alternative) Using pure Imagick
-        // $imagick = new Imagick(storage_path('app/uploads/' . $fileName));
-        // $imagick->resizeImage(200, 200, Imagick::FILTER_TRIANGLE, 1);
-        // $imagick->writeImage(storage_path('app/thumbnails/' . $fileName));
-        // Update your Image model to store original and thumbnail paths (if ap
-        return redirect()->route('gallery.index')->with('success', 'Image uploaded');
+        return response()->json([
+            'original' => config('filesystems.disks.minio.url') . '/' . $originalPath,
+            'thumbnail' => config('filesystems.disks.minio.url') . '/' . $thumbnailPath,
+        ]);
     }
 }
